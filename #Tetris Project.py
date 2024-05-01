@@ -1,6 +1,7 @@
 #Tetris Project
 import tkinter as tk
 import asyncio
+import random
 
 window = tk.Tk()
 
@@ -79,15 +80,45 @@ class Block:
         self.name = name
         self.tileConfig = tileConfig
     
+    colorList = ["#ff0000","#ff6600","#ffff00","#008000","#0000ff","#800080"]
+
+blockTuple = (\
+      ("Dot", ([2,2])),\
+      ("SLine", ([2,1],[2,2])),\
+      ("corner", ([2,1],[1,2],[2,2])),\
+      ("Square", ([1,1],[2,1],[1,2],[2,2])),\
+      ("LLine", ([2,1],[2,2],[2,3])),\
+      ("LRight", ([2,1],[2,2],[2,3],[3,3])),\
+      ("LLeft", ([2,1],[3,1],[2,2],[2,3])),\
+      ("HalfPlus", ([2,1],[2,2],[3,2],[2,3])),\
+      ("ZLeft", ([2,1],[3,1],[2,2],[1,3],[2,3])),\
+      ("ZRight", ([1,1],[2,1],[2,2],[2,3],[3,3]))\
+)
+  
     def setBlock():
         return
 
-    def preSetBlock():
+    def createBlockObject(self):
+        randomNumber = random.randint(0,(len(self.blockTuple) - 1))
+        blockName = self.blockTuple[randomNumber][0]
+        tileConfig = self.blockTuple[randomNumber][1]
+        randomNumber =  random.randint(0,(len(self.colorList) - 1))
+        color = self.colorList[randomNumber]
+        newBlock = Block(color=color, name=blockName, tileConfig=tileConfig)
+        return newBlock
+
+    def placeBlockInQue(newBlock):
+        
+        return
+
+    def preSetBlock(self):
+        newBlock = self.createBlockObject
+        self.placeBlockInQue(newBlock=newBlock)
         return
 
     def setNewBlock(self):
         self.setBlock()
-        self.preSetBlock()
+        self.preSetBlock
         return
 
     def checkBlockDown():
@@ -111,7 +142,7 @@ def setupGUI ():
     menuFrame.place(x=450,y=200)
     return
 
-async def blockDown():
+def blockDown():
     movable = Block.checkBlockDown()
     if movable:
         Block.moveBlockDown()
@@ -139,11 +170,13 @@ def blockRight():
 def blockRotate():
     return
 
-def newGame (event):
+async def newGame (event):
     startFrame.destroy()
     setupGUI()
     Block.preSetBlock()
-    asyncio.create_task(blockDown())
+    while True:
+        await asyncio.sleep(2)
+        blockDown()
 
 
 startButton.bind("<Button-1>", newGame)
