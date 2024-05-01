@@ -1,7 +1,6 @@
 #Tetris Project
 import tkinter as tk
-import threading
-import time
+import asyncio
 
 window = tk.Tk()
 
@@ -112,7 +111,7 @@ def setupGUI ():
     menuFrame.place(x=450,y=200)
     return
 
-def blockDown():
+async def blockDown():
     movable = Block.checkBlockDown()
     if movable:
         Block.moveBlockDown()
@@ -144,7 +143,7 @@ def newGame (event):
     startFrame.destroy()
     setupGUI()
     Block.preSetBlock()
-    threading.Timer(function=blockDown(),interval=2)
+    asyncio.create_task(blockDown())
 
 
 startButton.bind("<Button-1>", newGame)
