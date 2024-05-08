@@ -715,6 +715,7 @@ window.bind("<Right>", blockRightEvent)
 
 rotateButton.bind("<Button-1>", blockRotateEvent)
 window.bind("<space>", blockRotateEvent)
+window.bind("r", blockRotateEvent)
 
 gameOversubmitButton.bind("<Button-1>", submitScoresEvent)
 
