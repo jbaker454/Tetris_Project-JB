@@ -529,7 +529,7 @@ def getHighScore():
         tetrisHighScoreFile.close()
     
     lineFunction = lambda coord: (coord[1], coord[0])
-    highScores = sorted(highScores, key=lineFunction)
+    highScores = sorted(highScores, key=lineFunction, reverse=True)
     return highScores
 
 def DisplayHighScore(highScores):
