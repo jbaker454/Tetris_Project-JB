@@ -198,7 +198,7 @@ class Field:
     
     def gameIsOver(self):
         """brings up the game over frame and sets final score"""
-      self.totalRowsCompleted = 0
+        self.totalRowsCompleted = 0
         gameOverScoreLabel.configure(text="score: " + str(self.score))
         gameOverFrame.place(relx=0.5,x=-125,rely=0.5,y=-75)
     
