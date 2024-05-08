@@ -520,7 +520,7 @@ def getHighScore():
         if len(lineList) > 1:
             username = ""
             wordNumber = 0
-            while wordNumber <= len(lineList) - 1:
+            while wordNumber < len(lineList) - 1:
                 username = username + lineList[wordNumber]
                 wordNumber += 1
             highScore = [username,lineList[len(lineList) - 1]]
@@ -529,7 +529,7 @@ def getHighScore():
         tetrisHighScoreFile.close()
     
     lineFunction = lambda coord: (coord[1], coord[0])
-    highScores = sorted(highScores, key=lineFunction, reverse=True)
+    highScores = sorted(highScores, key=lineFunction)
     return highScores
 
 def DisplayHighScore(highScores):
