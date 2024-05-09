@@ -198,7 +198,6 @@ class Field:
     
     def gameIsOver(self):
         """brings up the game over frame and sets final score"""
-        self.totalRowsCompleted = 0
         gameOverScoreLabel.configure(text="score: " + str(self.score))
         gameOverFrame.place(relx=0.5,x=-125,rely=0.5,y=-75)
     
@@ -523,9 +522,12 @@ def getHighScore():
             while wordNumber < len(lineList) - 1:
                 username = username + lineList[wordNumber]
                 wordNumber += 1
-            highScore = [username,lineList[len(lineList) - 1]]
+            try:
+                highScore = [username,int(lineList[len(lineList) - 1])]
+            except:
+                highScore = [username,0]
             highScores.append(highScore)
-    if not (tetrisHighScoreFile == []):
+    if not tetrisHighScoreFile == []:
         tetrisHighScoreFile.close()
     
     lineFunction = lambda coord: (coord[1], coord[0])
@@ -534,11 +536,11 @@ def getHighScore():
 
 def DisplayHighScore(highScores):
     if len(highScores) > 0:
-        highScoresLabelA.configure(text=("1st place: " + highScores[0][1] + " by " + highScores[0][0]))
+        highScoresLabelA.configure(text=("1st: " + str(highScores[0][1]) + " by " + highScores[0][0]))
     if len(highScores) > 1:
-        highScoresLabelB.configure(text=("2nd place: " + highScores[1][1] + " by " + highScores[1][0]))
+        highScoresLabelB.configure(text=("2nd: " + str(highScores[1][1]) + " by " + highScores[1][0]))
     if len(highScores) > 2:
-        highScoresLabelC.configure(text=("3rd place: " + highScores[2][1] + " by " + highScores[2][0]))
+        highScoresLabelC.configure(text=("3rd: " + str(highScores[2][1]) + " by " + highScores[2][0]))
 
 def setupGUI ():
     """places main GUI(board, que, and menu)"""
@@ -660,6 +662,8 @@ def newGame (event):
     """sets up a new game"""
     field = Field.instances[0]
     field.gamePaused = True
+    field.totalRowsCompleted = 0
+    field.score = 0
     destroyPreviousObjects(field)
 
     queBlock = Block.preSetBlock()
@@ -691,7 +695,7 @@ startFrame = tk.Frame(master=window,height=550,width=650)
 startButton = tk.Button(master=startFrame,text="Start Game",width=10, command=start_game_operations)
 highScores = getHighScore()
 if len(highScores) > 0:
-    highScoreLabel = tk.Label(master=startFrame,text="HighScore: " + highScores[0][1] + " by " + highScores[0][0])
+    highScoreLabel = tk.Label(master=startFrame,text="HighScore: " + str(highScores[0][1]) + " by " + highScores[0][0])
     highScoreLabel.place(relx=.70,rely=.90)
 startButton.place(relx=.50,rely=.50, x=-50)
 startFrame.place(x=0,y=0)
@@ -715,7 +719,6 @@ window.bind("<Right>", blockRightEvent)
 
 rotateButton.bind("<Button-1>", blockRotateEvent)
 window.bind("<space>", blockRotateEvent)
-window.bind("r", blockRotateEvent)
 
 gameOversubmitButton.bind("<Button-1>", submitScoresEvent)
 
